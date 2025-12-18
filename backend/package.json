@@ -1,0 +1,18 @@
+{
+    "name": "moodbot-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development node --enable-source-maps --watch server.js",
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "mongoose": "^7.0.0"
+    },
+    "devDependencies": {
+        "cross-env": "^10.1.0"
+    }
+}
