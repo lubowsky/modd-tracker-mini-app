@@ -65,11 +65,12 @@ const app = express();
 
 // НАСТРОЙКИ CORS (ЗАМЕНИТЕ URL НА СВОЙ!)
 const corsOptions = {
-    origin: [
-        'https://model-tracker-mini-app.vercel.app', // Ваш мини-апп
-        'https://*.vercel.app',                      // Любой домен Vercel (на всякий случай)
-        'https://*.trycloudflare.com'                // Домен Cloudflare Tunnel
-    ],
+  origin: [
+    'https://modd-tracker-mini-app.vercel.app',
+    'https://*.vercel.app',
+    'https://*.trycloudflare.com',  // Все туннели Cloudflare
+    'https://roommates-distribute-podcast-worlds.trycloudflare.com'
+  ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
