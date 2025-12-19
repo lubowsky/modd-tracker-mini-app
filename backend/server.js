@@ -66,13 +66,14 @@ const app = express();
 // НАСТРОЙКИ CORS (ЗАМЕНИТЕ URL НА СВОЙ!)
 const corsOptions = {
     origin: [
-        'https://model-tracker-mini-app.vercel.app', // Ваш мини-апп на Vercel
-        'https://your-mini-app.vercel.app'           // Другие домены при необходимости
+        'https://model-tracker-mini-app.vercel.app', // Ваш мини-апп
+        'https://*.vercel.app',                      // Любой домен Vercel (на всякий случай)
+        'https://*.trycloudflare.com'                // Домен Cloudflare Tunnel
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    maxAge: 86400 // Кеширование preflight запросов на 24 часа
+    maxAge: 86400 // Кеширование предзапросов на 24 часа
 };
 
 app.use(cors(corsOptions));
