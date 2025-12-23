@@ -24,12 +24,9 @@ export default function App() {
     loadEntries(Number(telegramId));
   }, [telegramId]);
 
-  // В точке входа мини-аппа (скорее всего App.jsx или index.js)
   console.log('=== DEBUG Mini App ===');
   console.log('URL params:', window.location.search);
   console.log('Telegram ID from URL:', telegramId);
-  // console.log('WebApp initData:', Telegram.WebApp.initData);
-  // console.log('WebApp initDataUnsafe user:', Telegram.WebApp.initDataUnsafe?.user);
 
   return (
     <>
@@ -38,7 +35,7 @@ export default function App() {
       {page === "emotions" && <EmotionsPage />}
       {page === "physical" && <PhysicalPage />}
       {page === "stress" && <StressPage />}
-      {page === "subscription" && <SubscriptionPage />}
+      {page === "subscription" && <SubscriptionPage telegramId={telegramId} />}
     </>
   );
 }
