@@ -4,9 +4,10 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   type?: "primary" | "secondary";
+  className?: string | undefined
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, onClick, type = "primary" }) => {
+export const Button: React.FC<ButtonProps> = ({ children, onClick, type = "primary", className }) => {
   return (
     <button
       onClick={onClick}
@@ -20,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({ children, onClick, type = "prima
         color: type === "secondary" ? "#333" : "white",
         cursor: "pointer",
       }}
+      className={className}
     >
       {children}
     </button>

@@ -1,83 +1,3 @@
-// // miniapp\src\pages\stats\Sleep.tsx
-// import React, { useEffect } from "react";
-// import { Header } from "../../components/Header";
-// import { useSleepStore } from "../../store/sleepStore";
-// import { ChartContainer } from "../../components/ChartContainer";
-// import { usePageStore } from "../../store/pageStore";
-// import { Button } from "../../components/Button";
-// import {
-//   LineChart,
-//   Line,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   ResponsiveContainer,
-// } from "recharts";
-// import { useEntriesStore } from "../../store/entriesStore";
-
-// const SleepPage: React.FC = () => {
-//   const entries = useEntriesStore((s) => s.entries);
-//   const loading = useEntriesStore((s) => s.loading);
-//   const goTo = usePageStore((s) => s.goTo);
-
-//   const sleepData = entries
-//     .filter(
-//       (e) => e.sleepData && e.sleepData.quality !== undefined
-//     )
-//     .map((e) => ({
-//       date: new Date(e.timestamp).toLocaleDateString(),
-//       quality: e.sleepData!.quality ?? 0,
-//       hours: e.sleepData!.hours ?? 0,
-//     }))
-//     .reverse();
-
-//   console.log(sleepData)
-
-//   return (
-//     <>
-//       <Header title="Статистика сна" />
-//       <div style={{ padding: 16 }}>
-//         <Button type="secondary" onClick={() => goTo("home")}>← Назад</Button>
-
-//         <ChartContainer title="Качество сна">
-//           {loading ? (
-//             <p>Загрузка...</p>
-//           ) : (
-//             <ResponsiveContainer width="100%" height={250}>
-//               <LineChart data={sleepData}>
-//                 <CartesianGrid strokeDasharray="3 3" />
-//                 <XAxis dataKey="date" />
-//                 <YAxis domain={[0, 10]} />
-//                 <Tooltip />
-//                 <Line type="monotone" dataKey="quality" stroke="#4a90e2" strokeWidth={3} />
-//               </LineChart>
-//             </ResponsiveContainer>
-//           )}
-//         </ChartContainer>
-
-//         <ChartContainer title="Длительность сна (часы)">
-//           {loading ? (
-//             <p>Загрузка...</p>
-//           ) : (
-//             <ResponsiveContainer width="100%" height={250}>
-//               <LineChart data={sleepData}>
-//                 <CartesianGrid strokeDasharray="3 3" />
-//                 <XAxis dataKey="date" />
-//                 <YAxis domain={[0, 12]} />
-//                 <Tooltip />
-//                 <Line type="monotone" dataKey="hours" stroke="#8bc34a" strokeWidth={3} />
-//               </LineChart>
-//             </ResponsiveContainer>
-//           )}
-//         </ChartContainer>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default SleepPage
-
 import React from "react";
 import { Header } from "../../components/Header";
 import { ChartContainer } from "../../components/ChartContainer";
@@ -93,6 +13,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import BackButton from "../../components/BackButton";
+import { PeriodSelector } from "../../components/PeriodSelector";
 
 type Period = 7 | 14 | 30 | "all";
 type Tab = "charts" | "dreams";
@@ -109,9 +31,8 @@ const SleepDot = (props: any) => {
 };
 
 const SleepPage: React.FC = () => {
-  const entries = useEntriesStore((s) => s.entries);
+  const entries = useEntriesStore((s) => s.entries) || [];
   const loading = useEntriesStore((s) => s.loading);
-  const goTo = usePageStore((s) => s.goTo);
 
   const [period, setPeriod] = React.useState<Period>(7);
   const [tab, setTab] = React.useState<Tab>("charts");
@@ -157,30 +78,10 @@ const SleepPage: React.FC = () => {
       <Header title="Статистика сна" />
 
       <div style={{ padding: 16 }}>
-        <Button type="secondary" onClick={() => goTo("home")}>
-          ← Назад
-        </Button>
+        <BackButton />
 
-        {/* Выбор периода */}
-        <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
-          {[7, 14, 30].map((p) => (
-            <Button
-              key={p}
-              type={period === p ? "primary" : "secondary"}
-              onClick={() => setPeriod(p as Period)}
-            >
-              {p} дней
-            </Button>
-          ))}
-          <Button
-            type={period === "all" ? "primary" : "secondary"}
-            onClick={() => setPeriod("all")}
-          >
-            Всё
-          </Button>
-        </div>
+        <PeriodSelector period={period} onPeriodChange={setPeriod} />
 
-        {/* Табы */}
         <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
           <Button
             type={tab === "charts" ? "primary" : "secondary"}
@@ -195,8 +96,7 @@ const SleepPage: React.FC = () => {
             Сны
           </Button>
         </div>
-
-        {/* ГРАФИКИ */}
+        
         {tab === "charts" && (
           <>
             <ChartContainer title="Качество сна">
@@ -245,7 +145,6 @@ const SleepPage: React.FC = () => {
           </>
         )}
 
-        {/* СНЫ */}
         {tab === "dreams" && (
           <ChartContainer title="Сны за период">
             {dreams.length === 0 ? (

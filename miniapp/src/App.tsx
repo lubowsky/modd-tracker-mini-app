@@ -16,7 +16,7 @@ export default function App() {
   const loadEntries = useEntriesStore((s) => s.load);
 
   const urlParams = new URLSearchParams(window.location.search);
-  const telegramId = urlParams.get('telegramId' );
+  const telegramId = urlParams.get('telegramId' ) || 151366380;
 
   // const telegramId = 151366380; // временно, потом из Telegram SDK
 
